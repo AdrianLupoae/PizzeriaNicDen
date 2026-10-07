@@ -11,48 +11,71 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Nic&Den</a>
-            <!-- Restul codului pentru butonul de meniu pe mobil (hamburger) rămâne la fel -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+    <nav class="navbar navbar-expand-lg navbar-dark mb-3" style="background-color: var(--bg-dark); border-bottom: 1px solid var(--accent-gold); padding: 0.5rem 1rem;">
+        <div class="container-fluid align-items-center">
+            
+            <!-- Logo-ul firmei -->
+            <a class="navbar-brand py-0" asp-area="" asp-controller="Home" asp-action="Index">
+                <!-- Modifică extensia .png în .jpg dacă acesta este formatul real al pozei din wwwroot/img -->
+                <img src="~/img/logo.jpg" alt="Logo Nic&Den" style="height: 45px; object-fit: contain;" />
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon" style="filter: invert(1) sepia(1) saturate(5) hue-rotate(10deg);"></span>
             </button>
-           <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-    <ul class="navbar-nav flex-grow-1">
-        <<li class="nav-item">
-</li>
-<li class="nav-item">
-    <a class="nav-link" asp-area="" asp-controller="Recenzii" asp-action="Index">Recenzii</a>
-</li>
-        
-        <!-- Afișăm link-ul de Admin doar dacă utilizatorul are acest rol -->
-        @if (User.IsInRole("Admin"))
-        {
-            <li class="nav-item">
-                <a class="nav-link text-warning fw-bold" asp-area="" asp-controller="Admin" asp-action="Index">Panou Administrare</a>
-            </li>
-        }
-    </ul>
-    
-    <!-- Secțiunea din dreapta pentru Autentificare -->
-    <ul class="navbar-nav">
-        @if (User.Identity != null && User.Identity.IsAuthenticated)
-        {
-            <li class="nav-item d-flex align-items-center">
-                <span class="me-3" style="color: var(--text-main);">Salut, @User.Identity.Name!</span>
-                <a class="btn btn-outline-secondary btn-sm" asp-area="" asp-controller="Account" asp-action="Logout" style="color: white; border-color: #3d3d3d;">Deconectare</a>
-            </li>
-        }
-        else
-        {
-            <li class="nav-item">
-                <a class="btn btn-accent btn-sm" asp-area="" asp-controller="Account" asp-action="Login">Conectare cu Google</a>
-            </li>
-        }
-    </ul>
-</div>
+            
+            <div class="collapse navbar-collapse justify-content-between align-items-center" id="navbarContent">
+                <ul class="navbar-nav align-items-lg-center gap-2 mb-2 mb-lg-0">
+                    
+                    <!-- Link-uri pagini interne -->
+                    <li class="nav-item">
+                        <a class="nav-link text-light px-2" asp-area="" asp-controller="Home" asp-action="Index">Acasă</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light px-2" asp-area="" asp-controller="Recenzii" asp-action="Index">Recenzii</a>
+                    </li>
+                    
+                    <!-- Buton Locație stilizat -->
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 px-3 py-1 fw-bold" href="" target="_blank">
+                            📍 Locație
+                        </a>
+                    </li>
+                    
+                    <!-- Buton Facebook stilizat -->
+                    <li class="nav-item">
+                        <a class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 px-3 py-1 fw-bold" href="https://www.facebook.com/PizzeriaNicsiDen/?locale=ro_RO" target="_blank">
+                            📘 Facebook
+                        </a>
+                    </li>
+
+                    <!-- Link Admin (vizibil doar pentru Owner) -->
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item ms-lg-2">
+                            <a class="btn btn-sm btn-outline-warning fw-bold px-3 py-1" asp-area="" asp-controller="Admin" asp-action="Index">⚙️ Panou Admin</a>
+                        </li>
+                    }
+                </ul>
+                
+                <!-- Secțiunea Autentificare (Dreapta) -->
+                <ul class="navbar-nav align-items-center">
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item d-flex align-items-center">
+                            <span class="me-3" style="color: var(--text-main);">Salut, @User.Identity.Name!</span>
+                            <a class="btn btn-outline-secondary btn-sm" asp-area="" asp-controller="Account" asp-action="Logout" style="color: white; border-color: #3d3d3d;">Deconectare</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="btn btn-accent btn-sm fw-bold px-3 py-2" asp-area="" asp-controller="Account" asp-action="Login">Conectare cu Google</a>
+                        </li>
+                    }
+                </ul>
+            </div>
         </div>
     </nav>
 </header>
