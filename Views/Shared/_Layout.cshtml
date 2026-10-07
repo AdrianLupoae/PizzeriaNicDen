@@ -10,38 +10,63 @@
     <link rel="stylesheet" href="~/PizzeriaNicDen.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PizzeriaNicDen</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Nic&Den</a>
+            <!-- Restul codului pentru butonul de meniu pe mobil (hamburger) rămâne la fel -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon" style="filter: invert(1) sepia(1) saturate(5) hue-rotate(10deg);"></span>
+            </button>
+           <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+    <ul class="navbar-nav flex-grow-1">
+        <<li class="nav-item">
+</li>
+<li class="nav-item">
+    <a class="nav-link" asp-area="" asp-controller="Recenzii" asp-action="Index">Recenzii</a>
+</li>
+        
+        <!-- Afișăm link-ul de Admin doar dacă utilizatorul are acest rol -->
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-warning fw-bold" asp-area="" asp-controller="Admin" asp-action="Index">Panou Administrare</a>
+            </li>
+        }
+    </ul>
+    
+    <!-- Secțiunea din dreapta pentru Autentificare -->
+    <ul class="navbar-nav">
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <li class="nav-item d-flex align-items-center">
+                <span class="me-3" style="color: var(--text-main);">Salut, @User.Identity.Name!</span>
+                <a class="btn btn-outline-secondary btn-sm" asp-area="" asp-controller="Account" asp-action="Logout" style="color: white; border-color: #3d3d3d;">Deconectare</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="btn btn-accent btn-sm" asp-area="" asp-controller="Account" asp-action="Login">Conectare cu Google</a>
+            </li>
+        }
+    </ul>
+</div>
+        </div>
+    </nav>
+</header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - PizzeriaNicDen - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+  <footer class="border-top footer text-muted mt-5" style="border-color: var(--accent-gold) !important; color: var(--text-main) !important;">
+    <div class="container text-center py-3">
+        &copy; Pizzeria Nic&Den - Comenzi: <a href="tel:0759108991" style="color: var(--accent-gold); text-decoration: none;">0759 108 991</a>
+    </div>
+</footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

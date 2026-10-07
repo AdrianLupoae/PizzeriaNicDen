@@ -1,31 +1,121 @@
-html {
-  font-size: 14px;
+/* Definirea paletei de culori */
+:root {
+    --bg-dark: #1e1e1e;       /* Fundalul principal (negru/gri foarte închis) */
+    --bg-card: #2c2c2c;       /* Fundalul pentru elemente (ex. cardurile cu pizza) */
+    --text-main: #f0f0f0;     /* Textul principal (alb/gri deschis) */
+    --accent-gold: #d4af37;   /* Culoarea de accent (auriu/bronz) */
+    --accent-gold-hover: #b5952f;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+/* Aplicarea fundalului și culorii textului pe tot site-ul */
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Poți schimba fontul mai târziu */
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+/* Stilizarea secțiunii Hero (Prezentare) */
+.hero-section {
+    background-color: var(--bg-card); /* Va fi înlocuit cu o imagine de fundal mai târziu */
+    border-bottom: 2px solid var(--accent-gold);
+    color: var(--text-main);
+    padding: 3rem 1rem;
+    text-align: center;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.hero-section h1 {
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Stilizarea titlurilor secțiunilor (ex: Meniul Nostru) */
+.section-title {
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--accent-gold);
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+/* Stilizarea Cardurilor de Pizza */
+.pizza-card {
+    background-color: var(--bg-card);
+    border: 1px solid #3d3d3d; /* O margine subtilă */
+    color: var(--text-main);
+    transition: transform 0.3s ease; /* Efect la trecerea mouse-ului */
+}
+
+.pizza-card:hover {
+    transform: translateY(-5px); /* Se ridică puțin la hover */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+.pizza-card .card-title {
+    color: var(--accent-gold);
+}
+
+.pizza-card .text-muted {
+    color: #aaaaaa !important; /* Suprascriem clasa text-muted din Bootstrap */
+}
+
+/* Stilizarea Butoanelor (înlocuim roșul cu auriu) */
+.btn-accent {
+    background-color: var(--accent-gold);
+    color: #1e1e1e; /* Text negru pe buton auriu */
+    border: none;
+    font-weight: bold;
+}
+
+.btn-accent:hover {
+    background-color: var(--accent-gold-hover);
+    color: #1e1e1e;
+}
+
+/* Stilizarea ferestrelor Pop-up (Modal) */
+.modal-content {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--accent-gold);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--accent-gold);
+}
+
+.modal-title {
+    color: var(--accent-gold);
+}
+
+.modal-footer {
+    border-top: 1px solid #3d3d3d;
+}
+
+.btn-close-white {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Stilizarea Navigației (Meniul de sus) */
+.navbar {
+    background-color: var(--bg-dark) !important;
+    border-bottom: 1px solid var(--accent-gold);
+}
+
+.navbar-brand, .nav-link {
+    color: var(--accent-gold) !important;
+}
+
+.nav-link:hover {
+    color: var(--accent-gold-hover) !important;
+}
+
+/* Fix pentru Footer (suprascrie stilul default absolut din .NET) */
+.footer {
+    position: static !important;
+    line-height: inherit !important;
 }
 
 body {
-  margin-bottom: 60px;
-}
-
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
-}
-
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    margin-bottom: 0 !important; /* Anulăm spațiul gol lăsat de .NET la baza paginii */
 }

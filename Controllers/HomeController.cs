@@ -1,14 +1,32 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PizzeriaNicDen.Data;
 using PizzeriaNicDen.Models;
 
 namespace PizzeriaNicDen.Controllers;
 
 public class HomeController : Controller
 {
-    public IActionResult Index()
+    private readonly PizzeriaContext _context;
+
+    // Injectăm baza de date în controller
+    public HomeController(PizzeriaContext context)
     {
-        return View();
+        _context = context;
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        // Extragem toate pizzele. 
+        // Folosim .Include() pentru a aduce și datele din tabelul legat (PizzaFamily)
+        var pizze = await _context.Pizze
+                                  .Include(p => p.VariantaFamily)
+                                  .Include(p => p.Aprecieri)
+                                  .ToListAsync();
+                                  
+        // Trimitem lista către fișierul HTML (View)
+        return View(pizze);
     }
 
     public IActionResult Privacy()

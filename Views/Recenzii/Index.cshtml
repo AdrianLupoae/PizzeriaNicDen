@@ -1,0 +1,106 @@
+@model IEnumerable<PizzeriaNicDen.Models.RecenziePizzerie>
+
+@{
+    ViewData["Title"] = "Recenzii";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h2 class="section-title">Părerile Clienților</h2>
+    </div>
+
+    <div class="row">
+        <!-- Secțiunea formularului -->
+        <div class="col-md-4 mb-4">
+            <div class="p-4 rounded shadow-sm" style="background-color: var(--bg-card); border: 1px solid #3d3d3d;">
+                <h4 class="fw-bold mb-3" style="color: var(--accent-gold);">Lasă-ne o recenzie</h4>
+                
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <form asp-action="Adauga" method="post">
+                        <div class="mb-3">
+                            <label class="form-label text-light">Acordă o notă (1-5 stele)</label>
+                            <select name="stele" class="form-select bg-dark text-light" style="border-color: #555;" required>
+                                <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+                                <option value="4">⭐⭐⭐⭐ (4/5)</option>
+                                <option value="3">⭐⭐⭐ (3/5)</option>
+                                <option value="2">⭐⭐ (2/5)</option>
+                                <option value="1">⭐ (1/5)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-light">Părerea ta</label>
+                            <textarea name="text" class="form-control bg-dark text-light" rows="4" style="border-color: #555;" required placeholder="Cum ți s-a părut pizza noastră?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-accent w-100 fw-bold">Trimite Recenzia</button>
+                    </form>
+                }
+                else
+                {
+                    <div class="alert alert-dark border-secondary text-center">
+                        <p class="mb-2">Trebuie să fii conectat pentru a lăsa o recenzie.</p>
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-sm btn-accent">Conectare cu Google</a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Lista de recenzii -->
+        <div class="col-md-8">
+            @if (!Model.Any())
+            {
+                <p class="text-muted">Nu există recenzii momentan. Fii primul care ne evaluează!</p>
+            }
+            else
+            {
+                @foreach (var recenzie in Model)
+                {
+                    <div class="card mb-3 bg-dark text-light border-secondary">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="fw-bold mb-0" style="color: var(--accent-gold);">@recenzie.Utilizator?.Nume</h6>
+                                <small class="text-muted">@recenzie.DataAdaugare.ToString("dd.MM.yyyy")</small>
+                            </div>
+                            <div class="mb-2" style="color: var(--accent-gold);">
+                                @for (int i = 0; i < recenzie.Stele; i++) { <span>★</span> }
+                                @for (int i = recenzie.Stele; i < 5; i++) { <span class="text-secondary">★</span> }
+                            </div>
+                            <p class="mb-0">@recenzie.Text</p>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Modalul care apare dacă dă o notă bună -->
+@if (TempData["RecenzieBuna"] != null)
+{
+    <div class="modal fade" id="modalGoogleReview" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: var(--bg-card); border: 1px solid var(--accent-gold);">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title fw-bold" style="color: var(--accent-gold);">Îți mulțumim!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="fs-5 text-light">Ne bucurăm că ai avut o experiență de 5 stele!</p>
+                    <p class="text-muted">Ne-ai ajuta enorm dacă ai posta această părere și pe pagina noastră oficială de Google.</p>
+                    <!-- Vom înlocui acest link cu linkul exact de pe Google Maps ulterior -->
+                    <a href="https://share.google/UPw1QONzXTJDuCKJ4" target="_blank" class="btn btn-outline-light mt-3 fw-bold border-2" style="border-color: var(--accent-gold); color: var(--accent-gold);">
+                        Lasă recenzie pe Google
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Declanșăm modalul automat la încărcarea paginii dacă a lăsat recenzie bună
+        document.addEventListener("DOMContentLoaded", function () {
+            var myModal = new bootstrap.Modal(document.getElementById('modalGoogleReview'));
+            myModal.show();
+        });
+    </script>
+}

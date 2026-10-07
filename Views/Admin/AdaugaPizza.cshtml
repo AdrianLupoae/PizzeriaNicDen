@@ -1,0 +1,64 @@
+@model PizzeriaNicDen.Models.Pizza
+
+@{
+    ViewData["Title"] = "Adaugă Pizza";
+}
+
+<div class="container mt-5">
+    <h2 class="section-title mb-4">Adaugă un Produs Nou</h2>
+
+    <!-- Formularul cu suport pentru încărcare fișiere (multipart/form-data) -->
+    <form asp-action="AdaugaPizza" method="post" enctype="multipart/form-data" class="p-4 rounded shadow-sm" style="background-color: var(--bg-card); border: 1px solid #3d3d3d;">
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Nume" class="form-label fw-bold" style="color: var(--accent-gold);">Denumire Pizza</label>
+                <input asp-for="Nume" class="form-control bg-dark text-light" style="border-color: #555;" required />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold" style="color: var(--accent-gold);">Încarcă Imagine</label>
+                <!-- Input-ul care se leagă de parametrul 'pozaFisier' din Controller -->
+                <input type="file" name="pozaFisier" class="form-control bg-dark text-light" style="border-color: #555;" accept="image/*" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Ingrediente" class="form-label fw-bold" style="color: var(--accent-gold);">Ingrediente (Descriere)</label>
+            <textarea asp-for="Ingrediente" class="form-control bg-dark text-light" style="border-color: #555;" rows="2" required></textarea>
+        </div>
+
+        <hr style="border-color: #555;" class="my-4" />
+
+        <h5 class="fw-bold mb-3">Varianta Standard (30 cm)</h5>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Pret30cm" class="form-label">Preț (lei)</label>
+                <input asp-for="Pret30cm" type="number" step="0.01" class="form-control bg-dark text-light" style="border-color: #555;" required />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="ValoriNutritionale30cm" class="form-label">Valori Nutriționale</label>
+                <input asp-for="ValoriNutritionale30cm" class="form-control bg-dark text-light" style="border-color: #555;" placeholder="ex. 250 kcal / 100g" />
+            </div>
+        </div>
+
+        <hr style="border-color: #555;" class="my-4" />
+
+        <h5 class="fw-bold mb-3" style="color: var(--accent-gold);">Varianta Family (50 cm) - Opțional</h5>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Preț 50cm (lei)</label>
+                <input type="number" name="pret50cm" step="0.01" class="form-control bg-dark text-light" style="border-color: #555;" placeholder="Lasă gol dacă nu există" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Valori Nutriționale 50cm</label>
+                <input type="text" name="valori50cm" class="form-control bg-dark text-light" style="border-color: #555;" placeholder="ex. 250 kcal / 100g" />
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <button type="submit" class="btn btn-accent px-4 fw-bold">Salvează Produsul</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Anulează</a>
+        </div>
+    </form>
+</div>

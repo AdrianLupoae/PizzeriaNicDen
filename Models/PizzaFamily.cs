@@ -10,6 +10,6 @@ namespace PizzeriaNicDen.Models
         public int PizzaId { get; set; }
         
         // Proprietate de navigare înapoi către Pizza părinte
-        public virtual Pizza? Pizza { get; set; } 
+        public virtual Pizza? Pizza { get; set; } = null;
     }
 }

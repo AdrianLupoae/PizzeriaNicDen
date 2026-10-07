@@ -1,8 +1,151 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<PizzeriaNicDen.Models.Pizza>
+
+@{
+    ViewData["Title"] = "Acasă";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Secțiunea Hero (Prezentare) -->
+<div class="hero-section mb-5 shadow-sm">
+    <h1 class="display-4 fw-bold">Pizzeria Nic&Den</h1>
+    <p class="lead">Cea mai bună pizza, livrată caldă la tine acasă!</p>
+    <p class="fs-5">Comenzi la: <a href="tel:0759108991" class="fw-bold text-decoration-none" style="color: var(--accent-gold);">0759 108 991</a></p>
 </div>
+
+<!-- Secțiunea Meniu -->
+<div class="container">
+    <div class="text-center mb-5">
+        <h2 class="section-title">Meniul Nostru</h2>
+    </div>
+    
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        
+        @foreach (var pizza in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm pizza-card">
+                    
+                   <img src="@pizza.CaleImagine" class="card-img-top" alt="Imagine @pizza.Nume" style="height: 250px; object-fit: cover; border-radius: 5px 5px 0 0;">
+                    
+                    <div class="card-body d-flex flex-column">
+                        <!-- Înlocuiește vechiul <h5>...</h5> cu acesta: -->
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h5 class="card-title fw-bold text-uppercase mb-0">@pizza.Nume</h5>
+    
+    <!-- Secțiunea de Like -->
+    <div class="like-section" style="cursor: pointer;" onclick="toggleLike(@pizza.Id)">
+        @{
+            // Verificăm dacă userul logat a dat deja like ca să colorăm inimioara diferit
+            var currentUserIdStr = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            int.TryParse(currentUserIdStr, out int currentUserId);
+            bool hasLiked = currentUserId > 0 && pizza.Aprecieri.Any(a => a.UtilizatorId == currentUserId);
+        }
+        <span id="heart-icon-@pizza.Id" class="fs-4" style="color: @(hasLiked ? "var(--accent-gold)" : "#555");">
+            @(hasLiked ? "♥" : "♡")
+        </span>
+        <span id="like-count-@pizza.Id" class="ms-1 fw-bold" style="color: var(--accent-gold);">
+            @pizza.Aprecieri.Count
+        </span>
+    </div>
+</div>
+                        <p class="text-muted small mb-4">@pizza.Ingrediente</p>
+                        
+                        <div class="mt-auto">
+                            <div class="d-flex flex-column mb-3">
+                                <span class="fw-bold fs-5">30 cm: @pizza.Pret30cm.ToString("0.00") lei</span>
+                                
+                                @if (pizza.VariantaFamily != null)
+                                {
+                                    <span class="fw-bold" style="color: var(--accent-gold);">50 cm: @pizza.VariantaFamily.Pret50cm.ToString("0.00") lei</span>
+                                }
+                            </div>
+                            
+                            <button type="button" class="btn btn-accent w-100" data-bs-toggle="modal" data-bs-target="#modalPizza-@pizza.Id">
+                                Detalii Pizza
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fereastra Pop-up (Modal) -->
+            <div class="modal fade" id="modalPizza-@pizza.Id" tabindex="-1" aria-labelledby="modalLabel-@pizza.Id" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title fw-bold" id="modalLabel-@pizza.Id">@pizza.Nume</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h6 class="fw-bold" style="color: var(--accent-gold);">Ingrediente:</h6>
+                            <p>@pizza.Ingrediente</p>
+                            
+                            <hr style="border-color: #3d3d3d;" />
+                            <h6 class="fw-bold" style="color: var(--accent-gold);">Informații Standard (30 cm):</h6>
+                            <p class="mb-1">Valori Nutriționale: @pizza.ValoriNutritionale30cm</p>
+                            <p class="fw-bold fs-5">Preț: @pizza.Pret30cm.ToString("0.00") lei</p>
+
+                            @if (pizza.VariantaFamily != null)
+                            {
+                                <hr style="border-color: #3d3d3d;" />
+                                <h6 class="fw-bold" style="color: var(--accent-gold);">Varianta Family (50 cm):</h6>
+                                <p class="mb-1">Valori Nutriționale: @pizza.VariantaFamily.ValoriNutritionale50cm</p>
+                                <p class="fw-bold fs-5">Preț: @pizza.VariantaFamily.Pret50cm.ToString("0.00") lei</p>
+                            }
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #3d3d3d; border: none;">Închide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        async function toggleLike(pizzaId) {
+            // Verificăm pe frontend dacă e logat (dacă butonul de Google din header arată numele sau nu)
+            const isUserLoggedIn = '@User.Identity?.IsAuthenticated' === 'True';
+            
+            if (!isUserLoggedIn) {
+                alert("Trebuie să fii conectat cu contul Google pentru a aprecia o pizza!");
+                return;
+            }
+
+            try {
+                const response = await fetch('/Review/ToggleLike', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    },
+                    body: JSON.stringify(pizzaId)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        // Actualizăm numărul
+                        document.getElementById(`like-count-${pizzaId}`).innerText = data.count;
+                        
+                        // Schimbăm iconița plină / goală și culoarea
+                        const heartIcon = document.getElementById(`heart-icon-${pizzaId}`);
+                        if (data.liked) {
+                            heartIcon.innerText = "♥";
+                            heartIcon.style.color = "var(--accent-gold)";
+                        } else {
+                            heartIcon.innerText = "♡";
+                            heartIcon.style.color = "#555";
+                        }
+                    }
+                } else if (response.status === 401) {
+                    alert("Sesiunea ta a expirat. Te rugăm să te reconectezi.");
+                }
+            } catch (error) {
+                console.error('Eroare la procesarea aprecierii:', error);
+            }
+        }
+    </script>
+}
