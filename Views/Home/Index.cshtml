@@ -4,19 +4,18 @@
     ViewData["Title"] = "Acasă";
 }
 
-<!-- Secțiunea Hero (Prezentare) -->
-<div class="hero-section mb-5 shadow-sm">
-    <h1 class="display-4 fw-bold">Pizzeria Nic&Den</h1>
-    <p class="lead">Cea mai bună pizza, livrată caldă la tine acasă!</p>
-    <p class="fs-5">Comenzi la: <a href="tel:0759108991" class="fw-bold text-decoration-none" style="color: var(--accent-gold);">0759 108 991</a></p>
-</div>
 
 <!-- Secțiunea Meniu -->
 <div class="container">
+        <!-- Secțiunea Hero (Prezentare) -->
+<div class="hero-section mb-5 shadow-sm">
+  
+    <p class="fs-5">Comenzi la: <a href="tel:0759108991" class="fw-bold text-decoration-none" style="color: var(--accent-gold);">0759 108 991</a></p>
+</div>
     <div class="text-center mb-5">
         <h2 class="section-title">Meniul Nostru</h2>
     </div>
-    
+
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         
         @foreach (var pizza in Model)

@@ -11,15 +11,16 @@
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Poți schimba fontul mai târziu */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 0 !important; /* Anulăm spațiul gol lăsat de .NET la baza paginii */
 }
 
 /* Stilizarea secțiunii Hero (Prezentare) */
 .hero-section {
-    background-color: var(--bg-card); /* Va fi înlocuit cu o imagine de fundal mai târziu */
+    background-color: var(--bg-card);
     border-bottom: 2px solid var(--accent-gold);
     color: var(--text-main);
-    padding: 3rem 1rem;
+    padding: 0.8rem 1rem;
     text-align: center;
 }
 
@@ -35,20 +36,20 @@ body {
     text-transform: uppercase;
     letter-spacing: 1px;
     border-bottom: 1px solid var(--accent-gold);
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     display: inline-block;
 }
 
 /* Stilizarea Cardurilor de Pizza */
 .pizza-card {
     background-color: var(--bg-card);
-    border: 1px solid #3d3d3d; /* O margine subtilă */
+    border: 1px solid #3d3d3d;
     color: var(--text-main);
-    transition: transform 0.3s ease; /* Efect la trecerea mouse-ului */
+    transition: transform 0.3s ease;
 }
 
 .pizza-card:hover {
-    transform: translateY(-5px); /* Se ridică puțin la hover */
+    transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
@@ -57,13 +58,13 @@ body {
 }
 
 .pizza-card .text-muted {
-    color: #aaaaaa !important; /* Suprascriem clasa text-muted din Bootstrap */
+    color: #aaaaaa !important;
 }
 
 /* Stilizarea Butoanelor (înlocuim roșul cu auriu) */
 .btn-accent {
     background-color: var(--accent-gold);
-    color: #1e1e1e; /* Text negru pe buton auriu */
+    color: #1e1e1e;
     border: none;
     font-weight: bold;
 }
@@ -96,9 +97,12 @@ body {
     filter: invert(1) grayscale(100%) brightness(200%);
 }
 
-/* Stilizarea Navigației (Meniul de sus) */
+/* ============================================================
+   NAVIGAȚIE (bara de sus)
+   ============================================================ */
 .navbar {
     background-color: var(--bg-dark) !important;
+    border-top: 1px solid #3d3d3d;
     border-bottom: 1px solid var(--accent-gold);
 }
 
@@ -106,16 +110,164 @@ body {
     color: var(--accent-gold) !important;
 }
 
-.nav-link:hover {
-    color: var(--accent-gold-hover) !important;
+/* Link-uri simple (Acasă, Recenzii) cu linie aurie la hover */
+.navbar .nav-link {
+    position: relative;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 0.4rem 0.75rem !important;
+    transition: color 0.2s ease;
+}
+
+.navbar .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0;
+    height: 2px;
+    background-color: var(--accent-gold);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s ease;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+    color: #f3d46b !important;
+}
+
+.navbar .nav-link:hover::after,
+.navbar .nav-link:focus::after {
+    transform: scaleX(1);
+}
+
+/* Logo centrat, deasupra barei de navigație */
+.logo-banner {
+    background-color: var(--bg-dark);
+    text-align: center;
+    padding: 1rem 1rem 0.75rem;
+}
+
+.logo-banner a {
+    display: inline-block;
+}
+
+.brand-logo {
+    height: 130px;
+    width: auto;
+    max-width: 85vw;
+    object-fit: contain;
+    filter: drop-shadow(0 0 12px rgba(255, 140, 0, 0.25));
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.logo-banner a:hover .brand-logo {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 18px rgba(255, 140, 0, 0.45));
+}
+
+@media (max-width: 575.98px) {
+    .brand-logo {
+        height: 105px;
+    }
+}
+
+/* Butoane din navbar (Locație, Facebook, Admin) */
+.btn-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-gold);
+    background-color: transparent;
+    border: 1.5px solid var(--accent-gold);
+    border-radius: 50rem;            /* formă de pastilă */
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-nav svg {
+    flex-shrink: 0;
+}
+
+.btn-nav:hover,
+.btn-nav:focus {
+    color: #1e1e1e;
+    background-color: var(--accent-gold);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+}
+
+/* Butonul de Admin e plin, ca să se distingă de celelalte */
+.btn-nav-admin {
+    color: #1e1e1e;
+    background-color: var(--accent-gold);
+}
+
+.btn-nav-admin:hover,
+.btn-nav-admin:focus {
+    background-color: #f3d46b;
+    border-color: #f3d46b;
+}
+
+/* Mesajul de salut + Deconectare */
+.user-greeting {
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+
+.btn-nav-logout {
+    color: var(--text-main);
+    border-color: #555;
+}
+
+.btn-nav-logout:hover,
+.btn-nav-logout:focus {
+    color: #1e1e1e;
+    background-color: var(--text-main);
+    border-color: var(--text-main);
+    box-shadow: none;
+}
+
+/* Comportament pe telefon (meniul deschis cu hamburger) */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        padding: 1rem 0 0.5rem;
+    }
+
+    .navbar-collapse .btn-nav {
+        width: 100%;
+    }
+
+    .navbar-nav {
+        gap: 0.6rem !important;
+    }
+
+    .nav-auth {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid #3d3d3d;
+    }
+
+    .nav-auth .nav-item {
+        flex-direction: column;
+        align-items: stretch !important;
+        width: 100%;
+        gap: 0.6rem;
+        text-align: center;
+    }
+
+    .user-greeting {
+        margin: 0 !important;
+    }
 }
 
 /* Fix pentru Footer (suprascrie stilul default absolut din .NET) */
 .footer {
     position: static !important;
     line-height: inherit !important;
-}
-
-body {
-    margin-bottom: 0 !important; /* Anulăm spațiul gol lăsat de .NET la baza paginii */
 }

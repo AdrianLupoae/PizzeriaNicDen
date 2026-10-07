@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,42 +11,43 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark mb-3" style="background-color: var(--bg-dark); border-bottom: 1px solid var(--accent-gold); padding: 0.5rem 1rem;">
+ 
+    <nav class="navbar navbar-expand-lg navbar-dark mb-3" style="padding: 0.4rem 1rem;">
         <div class="container-fluid align-items-center">
-            
-            <!-- Logo-ul firmei -->
-            <a class="navbar-brand py-0" asp-area="" asp-controller="Home" asp-action="Index">
-                <!-- Modifică extensia .png în .jpg dacă acesta este formatul real al pozei din wwwroot/img -->
-                <img src="~/img/logo.jpg" alt="Logo Nic&Den" style="height: 45px; object-fit: contain;" />
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent"
+
+            <!-- Etichetă vizibilă doar pe telefon, lângă butonul hamburger -->
+            <span class="d-lg-none fw-bold" style="color: var(--accent-gold); letter-spacing: 1px;">MENIU</span>
+
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon" style="filter: invert(1) sepia(1) saturate(5) hue-rotate(10deg);"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse justify-content-between align-items-center" id="navbarContent">
-                <ul class="navbar-nav align-items-lg-center gap-2 mb-2 mb-lg-0">
-                    
+                <ul class="navbar-nav align-items-lg-center gap-lg-2 mb-2 mb-lg-0">
+
                     <!-- Link-uri pagini interne -->
                     <li class="nav-item">
-                        <a class="nav-link text-light px-2" asp-area="" asp-controller="Home" asp-action="Index">Acasă</a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Acasă</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light px-2" asp-area="" asp-controller="Recenzii" asp-action="Index">Recenzii</a>
+                        <a class="nav-link" asp-area="" asp-controller="Recenzii" asp-action="Index">Recenzii</a>
                     </li>
-                    
-                    <!-- Buton Locație stilizat -->
+
+                    <!-- Buton Locație -->
                     <li class="nav-item ms-lg-2">
-                        <a class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 px-3 py-1 fw-bold" href="" target="_blank">
-                            📍 Locație
+                        <!-- Înlocuiește cu linkul exact din Google Maps (Share -> Copy link) -->
+                        <a class="btn-nav" href="https://www.google.com/maps/search/?api=1&query=Pizzeria+Nic+si+Den" target="_blank" rel="noopener">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+                            Locație
                         </a>
                     </li>
-                    
-                    <!-- Buton Facebook stilizat -->
+
+                    <!-- Buton Facebook -->
                     <li class="nav-item">
-                        <a class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 px-3 py-1 fw-bold" href="https://www.facebook.com/PizzeriaNicsiDen/?locale=ro_RO" target="_blank">
-                            📘 Facebook
+                        <a class="btn-nav" href="https://www.facebook.com/PizzeriaNicsiDen/?locale=ro_RO" target="_blank" rel="noopener">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>
+                            Facebook
                         </a>
                     </li>
 
@@ -54,30 +55,36 @@
                     @if (User.IsInRole("Admin"))
                     {
                         <li class="nav-item ms-lg-2">
-                            <a class="btn btn-sm btn-outline-warning fw-bold px-3 py-1" asp-area="" asp-controller="Admin" asp-action="Index">⚙️ Panou Admin</a>
+                            <a class="btn-nav btn-nav-admin" asp-area="" asp-controller="Admin" asp-action="Index">Panou Admin</a>
                         </li>
                     }
                 </ul>
-                
+
                 <!-- Secțiunea Autentificare (Dreapta) -->
-                <ul class="navbar-nav align-items-center">
+                <ul class="navbar-nav align-items-center nav-auth">
                     @if (User.Identity != null && User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item d-flex align-items-center">
-                            <span class="me-3" style="color: var(--text-main);">Salut, @User.Identity.Name!</span>
-                            <a class="btn btn-outline-secondary btn-sm" asp-area="" asp-controller="Account" asp-action="Logout" style="color: white; border-color: #3d3d3d;">Deconectare</a>
+                            <span class="me-3 user-greeting">Salut, @User.Identity.Name!</span>
+                            <a class="btn-nav btn-nav-logout" asp-area="" asp-controller="Account" asp-action="Logout">Deconectare</a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item">
-                            <a class="btn btn-accent btn-sm fw-bold px-3 py-2" asp-area="" asp-controller="Account" asp-action="Login">Conectare cu Google</a>
+                            <a class="btn btn-accent btn-sm fw-bold px-3 py-2 rounded-pill" asp-area="" asp-controller="Account" asp-action="Login">Conectare cu Google</a>
                         </li>
                     }
                 </ul>
             </div>
         </div>
     </nav>
+       <!-- Logo-ul firmei, centrat -->
+    <div class="logo-banner">
+        <a asp-area="" asp-controller="Home" asp-action="Index">
+            <img src="~/img/logo.png" alt="Logo Pizzeria Nic&Den" class="brand-logo" />
+        </a>
+    </div>
 </header>
     <div class="container">
         <main role="main" class="pb-3">
