@@ -144,5 +144,66 @@ namespace PizzeriaNicDen.Controllers
             }
             return View(pizzaForm);
         }
+
+
+        [HttpGet]
+public async Task<IActionResult> Anunturi()
+{
+    var lista = await _context.Anunturi
+        .OrderByDescending(a => a.DataInceput)
+        .ToListAsync();
+    return View(lista);
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> CreeazaAnunt([Bind("Titlu,Mesaj,DataInceput,DataSfarsit")] Anunt anunt)
+{
+    if (!ModelState.IsValid)
+    {
+        TempData["Eroare"] = "Completează titlul, mesajul și perioada.";
+        return RedirectToAction(nameof(Anunturi));
+    }
+
+    if (anunt.DataSfarsit <= anunt.DataInceput)
+    {
+        TempData["Eroare"] = "Data de sfârșit trebuie să fie după data de început.";
+        return RedirectToAction(nameof(Anunturi));
+    }
+
+    anunt.Activ = true;
+    anunt.DataCreare = DateTime.UtcNow;
+    _context.Anunturi.Add(anunt);
+    await _context.SaveChangesAsync();
+
+    TempData["Succes"] = "Anunțul a fost salvat.";
+    return RedirectToAction(nameof(Anunturi));
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> SchimbaStareAnunt(int id)
+{
+    var anunt = await _context.Anunturi.FindAsync(id);
+    if (anunt != null)
+    {
+        anunt.Activ = !anunt.Activ;
+        await _context.SaveChangesAsync();
+    }
+    return RedirectToAction(nameof(Anunturi));
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> StergeAnunt(int id)
+{
+    var anunt = await _context.Anunturi.FindAsync(id);
+    if (anunt != null)
+    {
+        _context.Anunturi.Remove(anunt);
+        await _context.SaveChangesAsync();
+    }
+    return RedirectToAction(nameof(Anunturi));
+}
     }
 }

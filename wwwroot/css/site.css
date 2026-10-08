@@ -271,3 +271,85 @@ body {
     position: static !important;
     line-height: inherit !important;
 }
+
+
+.site-footer {
+    border-top: 1px solid var(--accent-gold);
+    color: var(--text-main);
+}
+.site-footer h6 {
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.site-footer a {
+    color: var(--text-main);
+    text-decoration: none;
+}
+.site-footer a:hover {
+    color: var(--accent-gold);
+}
+.site-footer .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.legal-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem 0 2rem;
+    color: var(--text-main);
+    line-height: 1.7;
+}
+.legal-page h1 {
+    color: var(--accent-gold);
+    margin-bottom: 0.25rem;
+}
+.legal-page h2 {
+    color: var(--accent-gold);
+    font-size: 1.25rem;
+    margin-top: 1.75rem;
+}
+.legal-page a {
+    color: var(--accent-gold);
+}
+.legal-page .updated {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin-bottom: 1.5rem;
+}
+.legal-page table {
+    color: var(--text-main);
+}
+
+
+
+.event-modal {
+    background-color: var(--bg-card, #1c1c1c);
+    color: var(--text-main);
+    border: 1px solid var(--accent-gold);
+    border-radius: 12px;
+}
+.event-modal .modal-header,
+.event-modal .modal-footer {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+.event-modal .modal-title {
+    color: var(--accent-gold);
+}
+.event-modal .event-phone {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.event-modal .event-phone a {
+    color: var(--accent-gold);
+    text-decoration: none;
+}
+
+
+
+
+.anunt-mesaj {
+    white-space: pre-line;
+    margin-bottom: 0.5rem;
+}
+

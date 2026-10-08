@@ -1,0 +1,112 @@
+@model List<PizzeriaNicDen.Models.Anunt>
+@{
+    ViewData["Title"] = "Anunțuri";
+    var acum = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Europe/Bucharest");
+}
+
+<div class="legal-page" style="max-width: 1000px;">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h1 class="mb-0">Anunțuri pe site</h1>
+        <button type="button" class="btn btn-accent fw-bold rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#anuntNouModal">
+            + Anunț nou
+        </button>
+    </div>
+    <p class="updated mt-2">Anunțul apare într-o fereastră când vizitatorul intră pe site, doar în perioada setată.</p>
+
+    @if (TempData["Succes"] != null)
+    {
+        <div class="alert alert-success">@TempData["Succes"]</div>
+    }
+    @if (TempData["Eroare"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Eroare"]</div>
+    }
+
+    @if (!Model.Any())
+    {
+        <p>Nu există anunțuri create.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th>Titlu</th>
+                        <th>Mesaj</th>
+                        <th>Valabil</th>
+                        <th>Stare</th>
+                        <th style="width: 190px;">Acțiuni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var a in Model)
+                {
+                    string stare, clasa;
+                    if (!a.Activ) { stare = "Dezactivat"; clasa = "bg-secondary"; }
+                    else if (acum < a.DataInceput) { stare = "Programat"; clasa = "bg-info text-dark"; }
+                    else if (acum > a.DataSfarsit) { stare = "Expirat"; clasa = "bg-dark"; }
+                    else { stare = "Afișat acum"; clasa = "bg-success"; }
+
+                    <tr>
+                        <td>@a.Titlu</td>
+                        <td style="white-space: pre-line;">@a.Mesaj</td>
+                        <td>@a.DataInceput.ToString("dd.MM.yyyy HH:mm")<br />@a.DataSfarsit.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td><span class="badge @clasa">@stare</span></td>
+                        <td>
+                            <form asp-action="SchimbaStareAnunt" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@a.Id" />
+                                <button type="submit" class="btn btn-sm btn-outline-light">@(a.Activ ? "Dezactivează" : "Activează")</button>
+                            </form>
+                            <form asp-action="StergeAnunt" method="post" class="d-inline" onsubmit="return confirm('Ștergi definitiv acest anunț?');">
+                                <input type="hidden" name="id" value="@a.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger">Șterge</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<!-- Fereastra: anunț nou -->
+<div class="modal fade" id="anuntNouModal" tabindex="-1" aria-labelledby="anuntNouLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content event-modal">
+            <form asp-action="CreeazaAnunt" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="anuntNouLabel">Anunț nou</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Închide"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="Titlu" class="form-label">Titlu</label>
+                        <input type="text" class="form-control" id="Titlu" name="Titlu" maxlength="100" required
+                               placeholder="ex: Restaurant închis" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Mesaj" class="form-label">Mesaj</label>
+                        <textarea class="form-control" id="Mesaj" name="Mesaj" rows="4" maxlength="1000" required
+                                  placeholder="ex: În perioada 24-26 decembrie restaurantul va fi închis."></textarea>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="DataInceput" class="form-label">Se afișează de la</label>
+                            <input type="datetime-local" class="form-control" id="DataInceput" name="DataInceput" required />
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="DataSfarsit" class="form-label">Până la</label>
+                            <input type="datetime-local" class="form-control" id="DataSfarsit" name="DataSfarsit" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-accent fw-bold rounded-pill px-4">Salvează</button>
+                    <button type="button" class="btn btn-outline-light rounded-pill px-4" data-bs-dismiss="modal">Anulează</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

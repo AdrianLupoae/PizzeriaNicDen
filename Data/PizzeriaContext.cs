@@ -14,6 +14,7 @@ namespace PizzeriaNicDen.Data
         public DbSet<Utilizator> Utilizatori { get; set; }
         public DbSet<AprecierePizza> AprecieriPizze { get; set; }
         public DbSet<RecenziePizzerie> Recenzii { get; set; }
+        public DbSet<Anunt> Anunturi { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // 1. Configurarea relației (deja existentă)

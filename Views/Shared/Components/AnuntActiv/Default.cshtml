@@ -1,0 +1,40 @@
+@model List<PizzeriaNicDen.Models.Anunt>
+
+@if (Model.Any())
+{
+    var cheie = "anunt_vazut_" + string.Join("-", Model.Select(a => a.Id));
+
+    <div class="modal fade" id="anuntModal" tabindex="-1" aria-labelledby="anuntModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content event-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="anuntModalLabel">Anunț</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Închide"></button>
+                </div>
+                <div class="modal-body">
+                    @foreach (var a in Model)
+                    {
+                        <h6 class="text-uppercase" style="color: var(--accent-gold);">@a.Titlu</h6>
+                        <p class="anunt-mesaj">@a.Mesaj</p>
+                        @if (a != Model.Last())
+                        {
+                            <hr />
+                        }
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-accent fw-bold rounded-pill px-4" data-bs-dismiss="modal">Am înțeles</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var cheie = '@cheie';
+            try { if (sessionStorage.getItem(cheie)) return; } catch (e) { }
+            try { sessionStorage.setItem(cheie, '1'); } catch (e) { }
+            new bootstrap.Modal(document.getElementById('anuntModal')).show();
+        });
+    </script>
+}

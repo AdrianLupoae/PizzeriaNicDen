@@ -28,6 +28,10 @@ public class HomeController : Controller
         // Trimitem lista către fișierul HTML (View)
         return View(pizze);
     }
+    public IActionResult Termeni() => View();
+    public IActionResult Confidentialitate() => View();
+    public IActionResult Cookies() => View();
+    public IActionResult Alergeni() => View();
 
     public IActionResult Privacy()
     {

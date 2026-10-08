@@ -1,0 +1,57 @@
+@{
+    ViewData["Title"] = "Politica de cookie-uri";
+}
+
+<div class="legal-page">
+    <h1>Politica de cookie-uri</h1>
+    <p class="updated">Ultima actualizare: [DATA]</p>
+
+    <h2>1. Ce sunt cookie-urile</h2>
+    <p>
+        Cookie-urile sunt fișiere mici stocate în browser, care ajută site-ul să funcționeze corect
+        (de exemplu, să vă țină autentificat).
+    </p>
+
+    <h2>2. Ce cookie-uri folosim</h2>
+    <p>Folosim doar cookie-uri strict necesare funcționării site-ului:</p>
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+            <thead>
+                <tr>
+                    <th>Cookie</th>
+                    <th>Scop</th>
+                    <th>Durată</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>.AspNetCore.Cookies</td>
+                    <td>Menține sesiunea de autentificare după conectarea cu Google</td>
+                    <td>[sesiune / X zile]</td>
+                </tr>
+                <tr>
+                    <td>.AspNetCore.Antiforgery.*</td>
+                    <td>Protecție împotriva atacurilor de tip CSRF la trimiterea formularelor</td>
+                    <td>Sesiune</td>
+                </tr>
+                <tr>
+                    <td>.AspNetCore.Correlation.* / .AspNetCore.OpenIdConnect.Nonce.*</td>
+                    <td>Securizează procesul de autentificare cu Google</td>
+                    <td>Temporar, câteva minute</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>3. Cookie-uri de analiză sau publicitate</h2>
+    <p>
+        În prezent nu folosim cookie-uri de analiză, marketing sau publicitate. Dacă vom adăuga astfel de servicii,
+        vom actualiza această pagină și vă vom cere acordul înainte de activarea lor.
+    </p>
+
+    <h2>4. Cum puteți controla cookie-urile</h2>
+    <p>
+        Puteți șterge sau bloca cookie-urile din setările browserului. Dacă blocați cookie-urile necesare,
+        autentificarea nu va funcționa.
+    </p>
+</div>

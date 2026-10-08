@@ -51,6 +51,17 @@
                         </a>
                     </li>
 
+
+                                        <!-- Buton Evenimente (deschide fereastra) -->
+                    <li class="nav-item">
+                        <a class="btn-nav" href="#" role="button" data-bs-toggle="modal" data-bs-target="#eventModal">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zm12 8v10H5V10h14z"/></svg>
+                            Evenimente
+                        </a>
+                    </li>
+
+
+
                     <!-- Link Admin (vizibil doar pentru Owner) -->
                     @if (User.IsInRole("Admin"))
                     {
@@ -58,6 +69,8 @@
                             <a class="btn-nav btn-nav-admin" asp-area="" asp-controller="Admin" asp-action="Index">Panou Admin</a>
                         </li>
                     }
+
+
                 </ul>
 
                 <!-- Secțiunea Autentificare (Dreapta) -->
@@ -92,11 +105,80 @@
         </main>
     </div>
 
-  <footer class="border-top footer text-muted mt-5" style="border-color: var(--accent-gold) !important; color: var(--text-main) !important;">
-    <div class="container text-center py-3">
-        &copy; Pizzeria Nic&Den - Comenzi: <a href="tel:0759108991" style="color: var(--accent-gold); text-decoration: none;">0759 108 991</a>
+<footer class="site-footer mt-5">
+    <div class="container py-4">
+        <div class="row g-4">
+
+            <!-- Date operator -->
+            <div class="col-md-4">
+                <h6>Pizzeria Nic&Den</h6>
+                <p class="mb-1">NIC & DEN FOOD SRL</p>
+                <p class="mb-1">RO37307331</p>
+                <p class="mb-1">Strada Anghel Saligny 122 807180 Liești</p>
+                <p class="mb-1">Comenzi: <a href="tel:0759108991">0759 108 991</a></p>
+             <!--   <p class="mb-0">E-mail: <a href="mailto:[EMAIL]">[EMAIL]</a></p> -->
+            </div>
+
+            <!-- Informații -->
+            <div class="col-md-4">
+                <h6>Informații</h6>
+                <ul class="list-unstyled mb-0">
+                    <li><a asp-controller="Home" asp-action="Termeni">Termeni și condiții</a></li>
+                    <li><a asp-controller="Home" asp-action="Confidentialitate">Politica de confidențialitate</a></li>
+                    <li><a asp-controller="Home" asp-action="Cookies">Politica de cookie-uri</a></li>
+                    <li><a asp-controller="Home" asp-action="Alergeni">Informații despre alergeni</a></li>
+                </ul>
+            </div>
+
+            <!-- Protecția consumatorilor -->
+            <div class="col-md-4">
+                <h6>Protecția consumatorilor</h6>
+                <ul class="list-unstyled mb-0">
+                    <li><a href="https://anpc.ro/" target="_blank" rel="noopener">ANPC - Autoritatea Națională pentru Protecția Consumatorilor</a></li>
+                    <li><a href="https://anpc.ro/ce-este-sal/" target="_blank" rel="noopener">SAL - Soluționarea Alternativă a Litigiilor</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="text-center small mt-4 pt-3 footer-bottom">
+            &copy; @DateTime.Now.Year Pizzeria Nic&Den. Toate drepturile rezervate.
+        </div>
     </div>
 </footer>
+
+
+
+    <!-- Fereastra Evenimente -->
+    <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content event-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">Organizăm evenimentul tău</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Închide"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        La Pizzeria Nic&amp;Den poți organiza evenimente private:
+                        aniversări, petreceri între prieteni, mese de familie sau întâlniri de firmă.
+                    </p>
+                    <p>
+                        Meniul, data, numărul de persoane și celelalte detalii se stabilesc împreună,
+                        în funcție de nevoile tale. Sună-ne și discutăm direct.
+                    </p>
+                    <p class="event-phone mb-0">
+                        Telefon: <a href="tel:0759108991">0759 108 991</a>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <a href="tel:0759108991" class="btn btn-accent fw-bold rounded-pill px-4">Sună acum</a>
+                    <button type="button" class="btn btn-outline-light rounded-pill px-4" data-bs-dismiss="modal">Închide</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @await Component.InvokeAsync("AnuntActiv")
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
